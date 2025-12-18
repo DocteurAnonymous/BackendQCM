@@ -11,10 +11,18 @@ class EtudiantController extends Controller
 {
     // Recuperer la liste des etudiants
     public function listeDesEtudiants(){
-        $listeEtudiant = Etudiant::all();
-        return response()->json([
-            'listeEtudiant' => $listeEtudiant,
-        ]);
+        try {
+            //code...
+            $listeEtudiant = Etudiant::all();
+            return response()->json([
+                'listeEtudiant' => $listeEtudiant,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => ['server' => $e->getMessage()] 
+            ], 500); // 500 pour erreur serveur
+        }
     }
 
     // L'ajout d'un etudiant 
@@ -50,9 +58,39 @@ class EtudiantController extends Controller
             ], 422);
         } catch (Exception $e) {
             return response()->json([
-                'message' => false,
-                'erreur' => $e 
-            ],422);
+                'success' => false,
+                'errors' => ['server' => $e->getMessage()] 
+            ], 500); // 500 pour erreur serveur
+        }
+    }
+
+    //Recupérer l'étudiant à travers son code
+    public function getEtudiant($code) {
+        try {
+            if(!$code){
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Aucun code envoyé'
+                ]);
+            }
+            $etudiant = Etudiant::where('code',$code)->first();
+            if($etudiant){
+                return response()->json([
+                    'success' => true,
+                    'data' => $etudiant
+                ]);
+            }else {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Aucun étudiant avec ce code'
+                ]);
+            }
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => ['server' => $e->getMessage()] 
+            ], 500); // 500 pour erreur serveur
         }
     }
 
