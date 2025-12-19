@@ -31,4 +31,8 @@ class Etudiant extends Model
 
         return $code;
     }
+
+    public function resultat() {
+        return $this->hasOne(resultat::class,'codeEtudiant','code');
+    }
 }

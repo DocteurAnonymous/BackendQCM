@@ -13,7 +13,7 @@ class EtudiantController extends Controller
     public function listeDesEtudiants(){
         try {
             //code...
-            $listeEtudiant = Etudiant::all();
+            $listeEtudiant = Etudiant::with('resultat')->get();
             return response()->json([
                 'listeEtudiant' => $listeEtudiant,
             ]);

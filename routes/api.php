@@ -16,6 +16,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/etudiant',[EtudiantController::class,'store']);
 // Recupérer les informations d'un etudiant à travers son code
 Route::get('/etudiant/{code}',[EtudiantController::class,'getEtudiant']);
+// Recupérer la liste des etudiants avec leurs resultats
+Route::get('/etudiant',[EtudiantController::class,'listeDesEtudiants']);
 
 
 // LES ROUTES POUR LES RESULTATS
